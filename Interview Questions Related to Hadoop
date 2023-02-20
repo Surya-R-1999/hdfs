@@ -90,21 +90,49 @@ most recent checkpoint file from FsImage and act's as Active NameNode. Once the 
 Ans : Secondary NameNode combines the edits log file and FsImage in the recent checkpoint, and creates a new FsImage which will be replacing the old FsImage.
 And the checkpoint will take place for every 1 hour.
 
-11) MR Job Execution Flow ?
-Ans : 
-step 1: MR JOB Object is created
-step 2: Resource Manager requesting for MR JOB
-step 3: Object collects all the data and sends to resource manager
-step 4: Resource manager submits application
-step 5: Resource manager sends a request to node manager to create the app master
-step 6: App MAster creates the containers
-step 7: app master getting the input splits
-step 8: app master requesting resources from resource manager
-step 9: start containers
-step 10: App master sends request to create containers to YARN Child
-step 11 : Acquiring job resources
-step 12 : Map reduce.
 
+11) Explain the map reduce architecture in hadoop 2.x version in a flow with working of containers and app master creation everything?
+
+Ans : Sure, here is a detailed explanation of the MapReduce architecture in Hadoop 2.x version:
+
+* Input data is stored in the Hadoop Distributed File System (HDFS) or any other supported file system.
+
+* The MapReduce job is submitted to the ResourceManager, which is responsible for managing resources and scheduling jobs across the cluster.
+
+* The ResourceManager assigns a unique Application ID and creates an ApplicationMaster (AM) for the MapReduce job.
+
+* The ApplicationMaster negotiates with the ResourceManager for resources to run the job and launches containers on the NodeManagers to execute the map and reduce tasks.
+
+* The input data is divided into smaller chunks called input splits by the InputFormat, which is responsible for reading data from the input source and creating input 
+splits.
+
+* The AM requests the ResourceManager for containers to run the map tasks. The ResourceManager allocates containers on the NodeManagers based on available resources 
+and locality of the data.
+
+* Each container runs a single map task and processes its assigned input split. The map function performs the processing of input data and emits key-value pairs as 
+output.
+
+* The output of the map tasks is written to the local disk of the NodeManager running the container.
+
+* The AM requests the ResourceManager for containers to run the reduce tasks. The ResourceManager allocates containers on the NodeManagers based on available resources
+and data locality.
+
+* Each container runs a single reduce task and processes the intermediate data produced by the map tasks. The intermediate data is shuffled and sorted by the shuffle phase before being passed to the reduce function.
+
+* The output of the reduce tasks is written to the HDFS or any other supported file system.
+
+* Once all the tasks have completed, the ApplicationMaster signals the ResourceManager that the job has completed.
+
+* The output of the MapReduce job can be retrieved from HDFS or any other supported file system by the client.
+
+In summary, in Hadoop 2.x version, the ResourceManager is responsible for managing resources and scheduling jobs, while the ApplicationMaster is responsible for 
+coordinating the MapReduce job and negotiating with the ResourceManager for resources. The map and reduce tasks run in containers on the NodeManagers, which are 
+responsible for managing resources on individual nodes in the cluster. 
+
+Conclusion:
+------------
+The input data is divided into input splits and processed by map tasks, and the intermediate data is shuffled and sorted before being processed by reduce tasks. 
+Finally, the output of the MapReduce job is stored in HDFS or any other supported file system.
 
 
 
