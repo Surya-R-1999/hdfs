@@ -36,6 +36,7 @@ And A copy of a block in one system, should not be replicated on the same system
 ---------------------------------------------------------------------------------
 
 
+
 2) What is Block ?
 Ans:  Blocks are nothing but physical division of actual data. Actual data is splitted into the number of blocks and size of each block is same. By default, size of each 
 block is either 128 MB or 64 MB depending upon the Hadoop. version. These blocks are stored distributedly on data nodes (multiple blocks are formed inside each Data Node).
@@ -53,7 +54,11 @@ Ans : Mapper is nothing but a Map function which is used to perform customer ope
 blocks and stored distributedly, so to perform the Mapper operation on data which is nothing but distributed data (block), mapper function or map task is called on each 
 distributed data (block) by doing this map tasks (the function defined by the client) which runs in parallel on distributed blocks.
 
-No. of map task or mappers = Data size / block size.
+No. of Ideal map task or mappers = Data size / block size.
+
+Here the above calculation is for Number of Blocks in each Data Node. Therefore if the number of input splits = Number of blocks 
+
+then Number of mappers = Number of blocks = Number of Input Splits. 
 
 Let’s understand this with example.
 
@@ -64,3 +69,7 @@ Then, hadoop will store the 1 GB data into 8 blocks (1024 / 128 = 8 ). So, for e
 6) Can all the files be Splitted while storing in HDFS ?
 Ans : No, The compressed or zip files can't be splitted. So that we can't split the data into smaller chunk of data. Therefore the number of mappers = Number of files.
 And the Size of each block = Size of each file.
+
+7) 
+
+
