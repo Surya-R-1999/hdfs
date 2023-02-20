@@ -71,6 +71,40 @@ Then, hadoop will store the 1 GB data into 8 blocks (1024 / 128 = 8 ). So, for e
 Ans : No, The compressed or zip files can't be splitted. So that we can't split the data into smaller chunk of data. Therefore the number of mappers = Number of files.
 And the Size of each block = Size of each file.
 
-7) 
+7) What is Input Split ?
+Ans : Input Split is a logical Split, which contains the memory location of the HDFS corresponding to the records present in Blocks.
+
+8) How does the whole processing architecture works?
+Ans : 
+step 1: MapReduce Job is executed.
+step 2: Resource Manager calculates the location of data blocks that corresponds to input split with the help of NameNode which contains the metadata.
+step 3: Resource manager after locating blocks from the metadata present in namenode, it sends the block ids and related information of where the actual data resides 
+in the block, to data manager
+step 4: Data manager process the data and sends teh response to the client.
+
+9) What is fsImage and how does it work?
+Ans : FsImage is referred as critical file, which contains all the metadata of the HDFS. So If the active NameNode faces downtime, the standby Namenode will get the
+most recent checkpoint file from FsImage and act's as Active NameNode. Once the NameNode which faces downtime is recovered, it acts as standby NameNode.
+
+10) What does secondary NameNode do ?
+Ans : Secondary NameNode combines the edits log file and FsImage in the recent checkpoint, and creates a new FsImage which will be replacing the old FsImage.
+And the checkpoint will take place for every 1 hour.
+
+11) MR Job Execution Flow ?
+Ans : 
+step 1: MR JOB Object is created
+step 2: Resource Manager requesting for MR JOB
+step 3: Object collects all the data and sends to resource manager
+step 4: Resource manager submits application
+step 5: Resource manager sends a request to node manager to create the app master
+step 6: App MAster creates the containers
+step 7: app master getting the input splits
+step 8: app master requesting resources from resource manager
+step 9: start containers
+step 10: App master sends request to create containers to YARN Child
+step 11 : Acquiring job resources
+step 12 : Map reduce.
+
+
 
 
