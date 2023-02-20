@@ -1,0 +1,66 @@
+Basics:
+------
+
+1) What is Node?
+
+Ans : In Hadoop, a node refers to a computer or server that is part of a larger distributed computing system. Specifically, there are two types of nodes in a Hadoop 
+cluster:
+
+* NameNode: This node stores metadata about the data stored in the cluster, such as file names, permissions, and locations.
+* DataNode: These nodes store the actual data in the Hadoop Distributed File System (HDFS).
+
+Together, these nodes work in a coordinated way to allow for the processing and storage of large amounts of data across many different machines.
+
+So If 10 TB of Data has to be stored in HDFS, 
+
+Data Node and Blocks per Data Node Calculation :
+------------------------------------------------
+
+Technically a Node is referred as system or Virtual machine. Let's assume my system's specification is 1 TB storage space.
+So I Need 10 Nodes or Systems to Store the 10 TB data.
+Therefore, in each system 1 TB of data can be stored. Each System is installed with hadoop 2.0 version. In which a block Size is 128 MB. Therefore for 1 TB of data,
+1Tb / 128 MB => 1024 Gb  / 128 Mb => 1024 * 1024 MB / 128 MB => 1048576 / 128 = 8192 Blocks are created in each system.
+
+By default the replication factor of hadoop 2.0 for each block is 3.
+--------------------------------------------------------------------
+So, the calculations will vary,
+
+10 Tb of actual data, and the 20 Tb of copied data, together 30 TB of data.
+                                                             --------------
+                                                             
+Then Number of data Nodes required is 30 Nodes.
+
+Each node a block can contain 128 MB, Therefore 1Tb / 128 MB => 1024 Gb  / 128 Mb => 1024 * 1024 MB / 128 MB => 1048576 / 128 = 8192 Blocks are created in each system.
+
+And A copy of a block in one system, should not be replicated on the same system.
+---------------------------------------------------------------------------------
+
+
+2) What is Block ?
+Ans:  Blocks are nothing but physical division of actual data. Actual data is splitted into the number of blocks and size of each block is same. By default, size of each 
+block is either 128 MB or 64 MB depending upon the Hadoop. version. These blocks are stored distributedly on data nodes (multiple blocks are formed inside each Data Node).
+
+3) Benefits of distributed blocks in terms of processing ?
+Ans : Since, blocks are stored distributedly , hadoop can perform any operation on these blocks in parallel. Parallel operations on blocks helps to reduce the data 
+processing time.
+
+4) What is MapReduce ?
+Ans : MapReduce as the name indicates it’s combination of Map and Reduce word. In the MapReduce framework, map and reduce are functions. These functions are also called 
+as Mappers and Reducer functions. The parallel processing is done by Map Reduce.
+
+5) What does a Mapper do ?
+Ans : Mapper is nothing but a Map function which is used to perform customer operation defined by the client on data. Since, in the HDFS system, data gets divided into 
+blocks and stored distributedly, so to perform the Mapper operation on data which is nothing but distributed data (block), mapper function or map task is called on each 
+distributed data (block) by doing this map tasks (the function defined by the client) which runs in parallel on distributed blocks.
+
+No. of map task or mappers = Data size / block size.
+
+Let’s understand this with example.
+
+Suppose there is 1GB (1024 MB) of data needs to be stored and processed by the hadoop.
+So, while storing the 1GB of data in HDFS, hadoop will split this data into smaller chunk of data. Consider, hadoop system has default 128 MB as split data size.
+Then, hadoop will store the 1 GB data into 8 blocks (1024 / 128 = 8 ). So, for each processing of this 8 blocks i.e 1 GB of data , 8 mappers are required.
+
+6) Can all the files be Splitted while storing in HDFS ?
+Ans : No, The compressed or zip files can't be splitted. So that we can't split the data into smaller chunk of data. Therefore the number of mappers = Number of files.
+And the Size of each block = Size of each file.
