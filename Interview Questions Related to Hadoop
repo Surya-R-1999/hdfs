@@ -35,7 +35,8 @@ Each node a block can contain 128 MB, Therefore 1Tb / 128 MB => 1024 Gb  / 128 M
 And A copy of a block in one system, should not be replicated on the same system.
 ---------------------------------------------------------------------------------
 
-
+Q) Difference between Block Split and Input Split: Refer the pdf
+==================================================================
 
 2) What is Block ?
 Ans:  Blocks are nothing but physical division of actual data. Actual data is splitted into the number of blocks and size of each block is same. By default, size of each 
